@@ -639,8 +639,7 @@ Write a function that takes elements of a list only on even positions.
 takeEven :: [a] -> [a]
 takeEven [] = []
 takeEven [x] = [x]
-takeEven [x, _] = [x]
-takeEven (x:_:rest) = [x] ++ (takeEven rest)
+takeEven (x:_:rest) = x : takeEven rest
 
 
 {- |
@@ -748,7 +747,7 @@ value of the element itself
 🕯 HINT: Use combination of 'map' and 'replicate'
 -}
 smartReplicate :: [Int] -> [Int]
-smartReplicate l = concat (map (\x -> replicate x x) l)
+smartReplicate = concatMap (\x -> replicate x x)
 
 {- |
 =⚔️= Task 9
@@ -866,7 +865,8 @@ list.
 rotate :: Int -> [a] -> [a]
 rotate n l 
   | n < 0 = []
-  | otherwise = take (length l) (drop n (cycle l))
+  | otherwise = go (length l) 
+      where go len = take len (drop (mod n len) (cycle l))
 
 {- |
 =💣= Task 12*
@@ -883,8 +883,11 @@ and reverses it.
   cheating!
 -}
 rewind :: [a] -> [a]
-rewind [] = []
-rewind (x: xs) = (rewind xs) ++ [x]
+rewind l = go l []
+    where 
+      go :: [a] -> [a] -> [a]
+      go [] acc = acc
+      go (x: xs) acc = go xs (x : acc)
 
 
 {-
