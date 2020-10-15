@@ -621,7 +621,7 @@ Implement a function that duplicates each element of the list
 -}
 duplicate :: [a] -> [a]
 duplicate [] = []
-duplicate (x:rest) = [x, x] ++ duplicate rest
+duplicate (x:xs) = x : x : duplicate xs
 
 
 {- |
